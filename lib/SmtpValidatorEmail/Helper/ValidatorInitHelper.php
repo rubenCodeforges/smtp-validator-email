@@ -47,13 +47,11 @@ class ValidatorInitHelper{
             'noCommIsValid' => 0,
             'catchAllIsValid' => 0,
             'catchAllEnabled' => 1,
-            'sameDomainLimit' => 3,
+            'sameDomainLimit' => 5,
         );
 
         $emails = is_array($emails) ? EmailHelper::sortEmailsByDomain($emails) : $emails;
-
         $this->options = array_merge($defaultOptions,$options);
-
         $this->setSender($sender);
         $this->setBags($emails);
         $this->results = new Results();
@@ -62,7 +60,7 @@ class ValidatorInitHelper{
     public function setBags($emails) {
         if (!empty($emails)) {
             $emailBag = new BagHelper();
-            $emailBag->add((array)$emails);
+            $emailBag->add($emails);
             $domainBag = $this->setEmailsDomains($emailBag);
             $this->domains = $domainBag->all();
         }
